@@ -1,0 +1,28 @@
+<script src="{{ "accordion-tab.js" | asset_url }}" defer="defer"></script>
+
+<style>
+  .accordion-content {
+    display: none;
+  }
+  accordion-tab[open] .accordion-content {
+    display: block;
+  }
+</style>
+<accordion-tab>
+  <div class="accordion-header" data-header>
+    <h2>Accordion Header</h2>
+  </div>
+  <div class="accordion-content" data-content>
+    Lorem ipsum dolor, sit amet consectetur adipisicing elit. Vitae delectus sit omnis sapiente suscipit quidem soluta
+    pariatur impedit distinctio nesciunt, deserunt, necessitatibus quia veritatis in temporibus nisi? Voluptate, natus
+    soluta.
+  </div>
+</accordion-tab>
+
+{% schema %}
+{
+  "name": "Accordion Tab",
+  "settings": [],
+  "presets": [{ "name": "Accordion Tab" }]
+}
+{% endschema %}

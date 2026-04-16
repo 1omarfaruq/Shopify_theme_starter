@@ -1,0 +1,90 @@
+{% comment %}
+  This section is used in the collection template to render collection page
+  listing all products within a collection.
+
+  https://shopify.dev/docs/storefronts/themes/architecture/templates/collection
+{% endcomment %}
+
+<h1>{{ collection.title }}</h1>
+
+{% comment %}
+  <div class="collection-products">
+    {% paginate collection.products by 20 %}
+      {% for product in collection.products %}
+        <div class="collection-product">
+          {% if product.featured_image %}
+            {% render 'image',
+              class: 'collection-product__image',
+              image: product.featured_image,
+              url: product.url,
+              width: 400,
+              height: 400,
+              crop: 'center'
+            %}
+          {% endif %}
+          <div class="collection-product__content">
+            <p>{{ product.title | escape | link_to: product.url }}</p>
+            <p>{{ product.price | money }}</p>
+          </div>
+        </div>
+      {% endfor %}
+
+      {{ paginate | default_pagination }}
+    {% endpaginate %}
+  </div>
+{% endcomment %}
+
+<div class="collection-products">
+  {% paginate collection.products by 20 %}
+    {% for product in collection.products %}
+      <product-card>
+        <div>
+          {% if product.featured_image %}
+            {% render 'image',
+              class: 'collection-product__image',
+              image: product.featured_image,
+              url: product.url,
+              width: 400,
+              height: 400,
+              crop: 'center'
+            %}
+          {% endif %}
+        </div>
+        <p>{{ product.title | escape | link_to: product.url }}</p>
+        <p>{{ product.price | money }}</p>
+
+        {% form 'product', product %}
+          {% if product.has_only_default_variant %}
+            <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+          {% else %}
+            <select name="id">
+              {% for variant in product.variants %}
+                <option value="{{ variant.id }}">{{ variant.title }} - {{ variant.price | money }}</option>
+              {% endfor %}
+            </select>
+          {% endif %}
+          <input type="hidden" name="quantity" value="1">
+
+          <button type="submit">Add to Cart</button>
+        {% endform %}
+      </product-card>
+    {% endfor %}
+
+    {{ paginate | default_pagination }}
+  {% endpaginate %}
+</div>
+
+{% stylesheet %}
+  .collection-products {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:general.collection",
+  "settings": []
+}
+{% endschema %}
