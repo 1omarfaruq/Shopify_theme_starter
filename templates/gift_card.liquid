@@ -6,8 +6,11 @@
     {% # Inlined CSS Variables %}
     {% render 'css-variables' %}
 
-    {% # Load and preload the critical CSS %}
-    {{ 'critical.css' | asset_url | stylesheet_tag: preload: true }}
+    {% # Load and preload the layout CSS %}
+    {{ 'layout.css' | asset_url | stylesheet_tag: preload: true }}
+
+    {% # Load and preload the core CSS %}
+    {{ 'core.css' | asset_url | stylesheet_tag: preload: true }}
 
     {% # Social, title, etc. %}
     {% render 'meta-tags' %}

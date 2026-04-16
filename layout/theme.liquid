@@ -7,7 +7,7 @@
     {% comment %}
       Font preloading:
       1. Preconnect to font CDN for faster connection
-      2. Preload only the critical font variant (base weight)
+      2. Preload only the core font variant (base weight)
       3. Additional variants load on-demand via @font-face
     {% endcomment %}
     {% unless settings.type_primary_font.system? %}
@@ -17,8 +17,11 @@
       {{ settings.type_primary_font | font_url | preload_tag: as: 'font', crossorigin: 'anonymous' }}
     {% endunless %}
 
-    {% # Load and preload the critical CSS %}
-    {{ 'critical.css' | asset_url | stylesheet_tag: preload: true }}
+    {% # Load and preload the layout CSS %}
+    {{ 'layout.css' | asset_url | stylesheet_tag: preload: true }}
+
+    {% # Load and preload the core CSS %}
+    {{ 'core.css' | asset_url | stylesheet_tag: preload: true }}
 
     {% # Social, title, etc. %}
     {% render 'meta-tags' %}
